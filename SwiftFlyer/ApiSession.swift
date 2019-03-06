@@ -43,7 +43,9 @@ public class ApiSession {
             }
             
             if !isValidStatusCode {
-                closure(.failed(ResponseError.unacceptableStatusCode(statusCode)))
+                let decoder = JSONDecoder()
+                let result = try decoder.decode(T.Response.self, from: data)
+                closure(.failed(result))
                 return
             }
             
